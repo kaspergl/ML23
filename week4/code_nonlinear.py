@@ -253,11 +253,13 @@ def contour_test():
     fe.plot(h1, h2, 'r--', linewidth=4)
     plt.show()
     
+    run(square_transform)
+    
 
-def run():
+def run(transform = poly_transform):
     """
     For each data set
-        # (1) apply the degree 3 polynomial transform.
+        # (1) apply the polynomial transform.
         # (2) runs the perceptron learning algorithm.
         # (3) computes and prints the in sample error and plots the results including contour plots
     
@@ -267,16 +269,16 @@ def run():
     for i in range(1, 5):
         X = D['X%d' % i]
         y = D['y%d' % i]
-        Xt = poly_transform(X)
+        Xt = transform(X)
         cls = PerceptronClassifier()
         cls.fit(Xt, y)
         w_pla = cls.w
         ax = axes[i-1]
         ax.scatter(X[:,0], X[:,1], c=y, cmap=plt.cm.Paired, s=20)
-        plot_contour(w_pla, poly_transform, ax)
+        plot_contour(w_pla, transform, ax)
         ax.set_xlim([-1, 1])
         ax.set_ylim([-1, 1])
-        ax.set_title("Nonlinear Perceptron - D{0}: Score: {1}".format(i, cls.score(Xt, y)))
+        ax.set_title("NonLin Perc D{0}: Score: {1}".format(i, cls.score(Xt, y)))
 
         
     plt.show()
